@@ -26,13 +26,16 @@ var questions = [
         correctanswer: "console.log"
     },
 ];
-//Track score
+
+// Track score
 var score = 0;
 var currentQuestionIndex = 0;
-//Time Limit
+
+// Time Limit
 var timeLimit = 60;
 var timer;
-//Starts quiz when start quiz button is clicked
+
+// Starts quiz when start quiz button is clicked
 function startQuiz() {
     document.getElementById("startButton").style.display = "none";
     displayQuestion();
@@ -40,6 +43,7 @@ function startQuiz() {
     startTimer();
     console.log("Quiz started");
 }
+
 function displayQuestion() {
     var questionContainer = document.getElementById("questionContainer");
     questionContainer.innerHTML = "";
@@ -63,21 +67,28 @@ function displayQuestion() {
         questionContainer.appendChild(option);
     }
 }
-//Check if answer is correct or incorrect
+
+// Check if answer is correct or incorrect
 function checkAnswer(selectedAnswer) {
     var question = questions[currentQuestionIndex];
+    var feedbackContainer = document.getElementById("feedbackContainer");
+    
     if (selectedAnswer === question.correctanswer) {
         score++;
+        feedbackContainer.textContent = "Correct!";
     } else {
         // Time penalty
         timeLimit -= 10;
+        feedbackContainer.textContent = "Incorrect! Time penalty accessed.";
     }
+    
     currentQuestionIndex++;
     updateScoreDisplay();
     displayQuestion();
 }
+
 function startTimer() {
-    //Updates Timer
+    // Updates Timer
     updateTimerDisplay();
 
     timer = setInterval(function() {
@@ -88,6 +99,7 @@ function startTimer() {
         }
     }, 1000);
 }
+
 function endQuiz() {
     clearInterval(timer);
     var resultContainer = document.getElementById("resultContainer");
@@ -96,7 +108,7 @@ function endQuiz() {
     // Save score
     var initials = prompt("Please enter your initials:");
     var userScore = { initials: initials, score: score };
-//Save score in local storage
+    // Save score in local storage
     var highScores = [];
     if (localStorage.getItem("highScores")) {
         highScores = JSON.parse(localStorage.getItem("highScores"));
@@ -117,13 +129,20 @@ function endQuiz() {
     var restartButton = document.getElementById("restartButton");
     restartButton.style.display = "block";
 }
-//Restart quiz
+
+// Restart quiz
 function restartQuiz() {
     score = 0;
     currentQuestionIndex = 0;
     timeLimit = 60;
     updateScoreDisplay();
     updateTimerDisplay();
+
+    var feedbackContainer = document.getElementById("feedbackContainer");
+    feedbackContainer.textContent = "";
+
+    var resultContainer = document.getElementById("resultContainer");
+    resultContainer.textContent = "";
 
     var restartButton = document.getElementById("restartButton");
     restartButton.style.display = "none";
@@ -135,13 +154,16 @@ function restartQuiz() {
     var highScoresContainer = document.getElementById("highScoresContainer");
     highScoresContainer.innerHTML = "";
 }
-    function updateScoreDisplay() {
+
+function updateScoreDisplay() {
     var scoreDisplay = document.getElementById("score");
     scoreDisplay.textContent = "Score: " + score;
 }
+
 function updateTimerDisplay() {
     var timerDisplay = document.getElementById("timer");
     timerDisplay.textContent = "Time: " + timeLimit + " seconds";
 }
+
 document.getElementById("startButton").addEventListener("click", startQuiz);
 document.getElementById("restartButton").addEventListener("click", restartQuiz);
