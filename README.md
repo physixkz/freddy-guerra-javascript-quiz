@@ -15,5 +15,8 @@ N/A
 License
 Please refer to the LICENSE in the repo.
 
-![Alt text](passgen.jpg)
+![Alt text](jsquiz.jpg)
 
+https://github.com/physixkz/freddy-guerra-javascript-quiz
+
+https://physixkz.github.io/freddy-guerra-javascript-quiz/
